@@ -1,0 +1,66 @@
+# If your site is in 'https', then make sure your base url isn't written using 'http' otherwise your sitemap would
+# contain http (as opposeed to https) URLs. This would affect Google indexing of your URLs.
+baseURL: "https://blog.radcolor.dev/"
+title: blog.radcolor.dev
+paginate: 5
+theme: [papermod]
+mainsections: ["posts"]
+
+params:
+  env: production
+  description: "Blog | Shashank"
+  author: radcolor
+
+  defaultTheme: auto
+  ShowShareButtons: true
+  shareButtons: ["linkedin",  "reddit", "telegram"]
+  ShowReadingTime: true
+  displayFullLangName: true
+  ShowPostNavLinks: true
+  ShowBreadCrumbs: true
+  ShowCodeCopyButtons: true
+  ShowRssButtonInSectionTermList: true
+  ShowAllPagesInArchive: true
+  ShowPageNums: true
+  ShowToc: true
+
+  homeInfoParams:
+    Title: "Hi 👋, I'm Shashank!"
+    Content: >
+      Hi 👋, I'm  a developer and an open-source enthusiast from India. I maintain a blog infrequently where I share things. Feel free to reach out to me there or via email. You can often find me active on Discord and Telegram.
+      
+      - In my spare time, I enjoy reading, writing and gaming as well. I have also contributed to several open source projects over the past 5 years since I adore open source development.
+
+  socialIcons:
+    - name: github
+      title: GitHub
+      url: "https://github.com/radcolor"
+    - name: Discord
+      title: Discord
+      url: ""
+    - name: twitter
+      title: Twitter/X
+      url: ""
+    - name: pgp
+      title: GPG Keys
+      url: ""
+    - name: email
+      title: e-mail
+      url: mailto:shnk@radcolor.dev
+    - name: telegram
+      title: Telegram
+      url: ""
+    - name: cv
+      title: CV
+      url: ""
+    - name: spotify
+      title: Spotify
+      url: ""
+    - name: rss
+      title: RSS
+      url: ""
+
+  editPost:
+    URL: ""
+    Text: "Suggest Changes to this Post" # edit text
+    appendFilePath: true # to append file path to Edit link
