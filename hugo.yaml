@@ -3,8 +3,33 @@
 baseURL: "https://blog.radcolor.dev/"
 title: blog.radcolor.dev
 paginate: 5
-theme: [papermod]
+theme: [PaperMod]
 mainsections: ["posts"]
+enableInlineShortcodes: true
+enableRobotsTXT: true
+buildDrafts: false
+buildFuture: false
+buildExpired: false
+enableEmoji: true
+pygmentsUseClasses: true
+
+menu:
+  main:
+    - name: About
+      url: about
+      weight: 5
+    - name: Search
+      url: search/
+      weight: 10
+    - name: Tags
+      url: tags/
+      weight: 10
+
+outputs:
+  home:
+    - HTML
+    - RSS
+    - JSON
 
 params:
   env: production
@@ -13,7 +38,7 @@ params:
 
   defaultTheme: auto
   ShowShareButtons: true
-  shareButtons: ["linkedin",  "reddit", "telegram"]
+  shareButtons: ["linkedin",  "reddit", "telegram", "x"]
   ShowReadingTime: true
   displayFullLangName: true
   ShowPostNavLinks: true
@@ -23,42 +48,46 @@ params:
   ShowAllPagesInArchive: true
   ShowPageNums: true
   ShowToc: true
+  comments: true
 
   homeInfoParams:
     Title: "Hi 👋, I'm Shashank!"
     Content: >
-      Hi 👋, I'm  a developer and an open-source enthusiast from India. I maintain a blog infrequently where I share things. Feel free to reach out to me there or via email. You can often find me active on Discord and Telegram.
-      
-      - In my spare time, I enjoy reading, writing and gaming as well. I have also contributed to several open source projects over the past 5 years since I adore open source development.
+      * Hi, I'm a System Engineer and an open-source enthusiast from India. I maintain a blog infrequently where I share things. Feel free to reach out to me there or via email. You can often find me active on Discord and Telegram.
 
+      * In my spare time, I enjoy reading, writing and gaming as well. I have also contributed to several open source projects over the past 5 years since I adore open source development.
+      
   socialIcons:
     - name: github
       title: GitHub
       url: "https://github.com/radcolor"
+    - name: gitea
+      title: Git
+      url: "https://git.radcolor.dev/radcolor/"
     - name: Discord
       title: Discord
-      url: ""
-    - name: twitter
+      url: "https://discordapp.com/users/640071709013180447"
+    - name: x
       title: Twitter/X
       url: ""
     - name: pgp
       title: GPG Keys
-      url: ""
+      url: "https://radcolor.dev/Shashank_0xDE98DF8F_public.asc"
     - name: email
       title: e-mail
       url: mailto:shnk@radcolor.dev
     - name: telegram
       title: Telegram
-      url: ""
-    - name: cv
-      title: CV
-      url: ""
+      url: "https://t.me/radcolor"
+    # - name: cv
+    #   title: CV
+    #   url: ""
     - name: spotify
       title: Spotify
-      url: ""
+      url: "https://open.spotify.com/user/312gxione5qyuyw4yx2utfqa5kha"
     - name: rss
       title: RSS
-      url: ""
+      url: "https://blog.radcolor.dev/index.xml"
 
   editPost:
     URL: ""
