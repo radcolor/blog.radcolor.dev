@@ -1,0 +1,87 @@
+---
+import { ClientRouter } from "astro:transitions";
+import ThemeToggle from "@/components/ThemeToggle.astro";
+import { portfolioUrl, siteDescription, siteName, siteTitle, siteUrl } from "@/lib/site";
+import "../styles/global.css";
+
+type Props = {
+  title?: string;
+  description?: string;
+  canonical?: string;
+};
+
+const {
+  title = siteTitle,
+  description = siteDescription,
+  canonical,
+} = Astro.props;
+
+const pageTitle = title === siteTitle ? siteTitle : `${title} - ${siteTitle}`;
+const canonicalUrl =
+  canonical && canonical.length > 0
+    ? canonical
+    : new URL(Astro.url.pathname, siteUrl).toString();
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+    <link rel="alternate" type="application/rss+xml" title={siteTitle} href="/rss.xml" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:site_name" content={siteTitle} />
+    <meta name="twitter:card" content="summary" />
+    <ClientRouter />
+    <script is:inline data-astro-rerun>
+      (() => {
+        try {
+          const storedTheme = window.localStorage.getItem("theme");
+          const theme =
+            storedTheme === "light" || storedTheme === "dark"
+              ? storedTheme
+              : window.matchMedia("(prefers-color-scheme: dark)").matches
+                ? "dark"
+                : "light";
+
+          document.documentElement.classList.toggle("dark", theme === "dark");
+          document.documentElement.classList.toggle("light", theme === "light");
+          document.documentElement.style.colorScheme = theme;
+        } catch {}
+      })();
+    </script>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="site-shell header-inner">
+        <a class="brand" href="/" aria-label={`${siteName} home`}>{siteName}</a>
+        <div class="header-actions">
+          <nav class="site-nav" aria-label="Primary">
+            <a href="/">Posts</a>
+            <a href="/tags/">Tags</a>
+            <a href={portfolioUrl} rel="noopener noreferrer">radcolor.dev</a>
+          </nav>
+          <ThemeToggle />
+        </div>
+      </div>
+    </header>
+
+    <main class="site-shell main-content">
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <div class="site-shell">
+        <p>
+          (c) {new Date().getFullYear()} radcolor - <a href={portfolioUrl} rel="noopener noreferrer">radcolor.dev</a>
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>

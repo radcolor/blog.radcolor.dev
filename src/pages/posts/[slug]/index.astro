@@ -1,0 +1,62 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { formatDate, getPostSlug, getPosts, slugifyTag } from "@/lib/posts";
+import type { Post } from "@/lib/posts";
+
+export async function getStaticPaths() {
+  const posts = await getPosts();
+
+  return posts.map((post) => ({
+    params: { slug: getPostSlug(post) },
+    props: { post },
+  }));
+}
+
+type Props = {
+  post: Post;
+};
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+---
+
+<BaseLayout
+  title={post.data.title}
+  description={post.data.description}
+  canonical={post.data.canonical}
+>
+  <article>
+    <header class="article-header">
+      <p class="page-kicker">Post</p>
+      <h1 class="article-title">{post.data.title}</h1>
+      <p class="article-description">{post.data.description}</p>
+      <div class="post-meta">
+        <time datetime={post.data.pubDate.toISOString()}>
+          Published {formatDate(post.data.pubDate)}
+        </time>
+        {
+          post.data.updatedDate && (
+            <time datetime={post.data.updatedDate.toISOString()}>
+              Updated {formatDate(post.data.updatedDate)}
+            </time>
+          )
+        }
+      </div>
+      <ul class="tag-list" aria-label={`Tags for ${post.data.title}`}>
+        {
+          post.data.tags.map((tag) => (
+            <li>
+              <a class="tag-link" href={`/tags/${slugifyTag(tag)}/`}>
+                {tag}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </header>
+
+    <div class="prose">
+      <Content />
+    </div>
+  </article>
+</BaseLayout>

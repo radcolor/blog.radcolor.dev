@@ -1,0 +1,32 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { getPostsByTag, getTags, slugifyTag } from "@/lib/posts";
+
+const tags = await Promise.all(
+  (await getTags()).map(async (tag) => ({
+    name: tag,
+    slug: slugifyTag(tag),
+    count: (await getPostsByTag(slugifyTag(tag))).length,
+  })),
+);
+---
+
+<BaseLayout title="Tags" description="Browse radcolor blog posts by tag.">
+  <section>
+    <p class="page-kicker">Archives</p>
+    <h1 class="page-title">Tags</h1>
+    <p class="page-description">Browse posts by topic.</p>
+  </section>
+
+  <ul class="tag-list" style="margin-top: 3rem;">
+    {
+      tags.map((tag) => (
+        <li>
+          <a class="tag-link" href={`/tags/${tag.slug}/`}>
+            {tag.name} ({tag.count})
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</BaseLayout>

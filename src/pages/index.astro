@@ -1,0 +1,46 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { formatDate, getPostSlug, getPosts, slugifyTag } from "@/lib/posts";
+import { siteDescription, siteTitle } from "@/lib/site";
+
+const posts = await getPosts();
+---
+
+<BaseLayout title={siteTitle} description={siteDescription}>
+  <section>
+    <p class="page-kicker">Technical notes</p>
+    <h1 class="page-title">radcolor blog</h1>
+    <p class="page-description">
+      Notes on Linux, Android kernels, tooling, development workflows, and project writing.
+    </p>
+  </section>
+
+  <ol class="post-list">
+    {
+      posts.map((post) => (
+        <li class="post-card">
+          <article>
+            <h2>
+              <a href={`/posts/${getPostSlug(post)}/`}>{post.data.title}</a>
+            </h2>
+            <p>{post.data.description}</p>
+            <div class="post-meta">
+              <time datetime={post.data.pubDate.toISOString()}>
+                {formatDate(post.data.pubDate)}
+              </time>
+            </div>
+            <ul class="tag-list" aria-label={`Tags for ${post.data.title}`}>
+              {post.data.tags.map((tag) => (
+                <li>
+                  <a class="tag-link" href={`/tags/${slugifyTag(tag)}/`}>
+                    {tag}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </article>
+        </li>
+      ))
+    }
+  </ol>
+</BaseLayout>

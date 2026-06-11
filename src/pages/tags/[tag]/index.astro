@@ -1,0 +1,51 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { formatDate, getPostsByTag, getPostSlug, getTags, slugifyTag } from "@/lib/posts";
+
+export async function getStaticPaths() {
+  const tags = await getTags();
+
+  return tags.map((tag) => ({
+    params: { tag: slugifyTag(tag) },
+    props: { tag },
+  }));
+}
+
+type Props = {
+  tag: string;
+};
+
+const { tag } = Astro.props;
+const tagSlug = slugifyTag(tag);
+const posts = await getPostsByTag(tagSlug);
+---
+
+<BaseLayout title={`Posts tagged ${tag}`} description={`Posts tagged ${tag} on radcolor blog.`}>
+  <section>
+    <p class="page-kicker">Tag</p>
+    <h1 class="page-title">{tag}</h1>
+    <p class="page-description">
+      {posts.length} {posts.length === 1 ? "post" : "posts"} filed under this tag.
+    </p>
+  </section>
+
+  <ol class="post-list">
+    {
+      posts.map((post) => (
+        <li class="post-card">
+          <article>
+            <h2>
+              <a href={`/posts/${getPostSlug(post)}/`}>{post.data.title}</a>
+            </h2>
+            <p>{post.data.description}</p>
+            <div class="post-meta">
+              <time datetime={post.data.pubDate.toISOString()}>
+                {formatDate(post.data.pubDate)}
+              </time>
+            </div>
+          </article>
+        </li>
+      ))
+    }
+  </ol>
+</BaseLayout>

@@ -1,0 +1,50 @@
+<button
+  class="theme-toggle"
+  type="button"
+  aria-label="Toggle color theme"
+  data-theme-toggle
+>
+  <span data-theme-icon-light aria-hidden="true">Light</span>
+  <span data-theme-icon-dark aria-hidden="true">Dark</span>
+</button>
+
+<script is:inline data-astro-rerun>
+  const button = document.querySelector("[data-theme-toggle]");
+  const lightIcon = document.querySelector("[data-theme-icon-light]");
+  const darkIcon = document.querySelector("[data-theme-icon-dark]");
+
+  function getStoredTheme() {
+    try {
+      const theme = window.localStorage.getItem("theme");
+      return theme === "light" || theme === "dark" ? theme : null;
+    } catch {
+      return null;
+    }
+  }
+
+  function getPreferredTheme() {
+    return window.matchMedia("(prefers-color-scheme: dark)").matches
+      ? "dark"
+      : "light";
+  }
+
+  function applyTheme(theme) {
+    document.documentElement.classList.toggle("dark", theme === "dark");
+    document.documentElement.classList.toggle("light", theme === "light");
+    document.documentElement.style.colorScheme = theme;
+    lightIcon?.toggleAttribute("hidden", theme === "dark");
+    darkIcon?.toggleAttribute("hidden", theme === "light");
+  }
+
+  applyTheme(getStoredTheme() ?? getPreferredTheme());
+
+  button?.addEventListener("click", () => {
+    const nextTheme = document.documentElement.classList.contains("dark")
+      ? "light"
+      : "dark";
+    try {
+      window.localStorage.setItem("theme", nextTheme);
+    } catch {}
+    applyTheme(nextTheme);
+  });
+</script>
